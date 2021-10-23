@@ -1,22 +1,24 @@
+from logging import debug
 from flask import Flask, render_template, request, redirect, session
 from flask_cors import CORS
 import json
 from flask_mail import Mail, Message
+import os
 
 app = Flask(__name__)
 app.secret_key = 'any'
 CORS(app)
 
-sender_email = os.getenv('SENDER_EMAIL')
-password = os.getenv('PASSWORD')
-receiver_email = os.getenv('RECEIVER_EMAIL')
+# sender_email = os.getenv('SENDER_EMAIL')
+# password = os.getenv('PASSWORD')
+# receiver_email = os.getenv('RECEIVER_EMAIL')
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = sender_email
-app.config['MAIL_PASSWORD'] = password
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+# app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+# app.config['MAIL_PORT'] = 465
+# app.config['MAIL_USERNAME'] = sender_email
+# app.config['MAIL_PASSWORD'] = password
+# app.config['MAIL_USE_TLS'] = False
+# app.config['MAIL_USE_SSL'] = True
 
 
 @app.route('/')
@@ -37,3 +39,7 @@ def processForm():
 @app.route('/result')
 def result():
     pass
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
