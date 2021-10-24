@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.88.1">
+  <title>Cover Template · Bootstrap v5.1</title>
+  <link rel="stylesheet" href="../static/result.css">
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/cover/">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+
+
+  <!-- Custom styles for this template -->
+  <link href="cover.css" rel="stylesheet">
+</head>
+<!-- <style>
+  body{
+    background-image: url('../static/result.png');
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+  }
+</style> -->
+
+<body class="d-flex h-100 text-center text-black backcolor">
+
+  <div class=" d-flex w-50 h-75  mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h1 class="float-md-start mb-0 title" >Cover</h1>
+      </div>
+    </header>
+      <div class="center">
+        {% for i in res %}
+        {% if i %}
+        <p>{{i}}</p>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="result-container">
+
+        <div class="center">
+          <p>This div takes up the width specified in CSS and the remaining space is split equally between the two
+            margins.</p>
+        </div>
+  </div>
+  </section>
+
+
+</body>
+
+</html>

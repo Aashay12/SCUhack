@@ -2,180 +2,27 @@
 <html lang="en">
 
 <head>
-  <title>First Step ID</title>
-  <meta name="viewport" content="width=device-width" />
-  <script src="https://unpkg.com/jquery@3.5.1/dist/jquery.js"></script>
-  <script src="https://surveyjs.azureedge.net/1.8.2/survey.jquery.min.js"></script>
-  <link href="https://surveyjs.azureedge.net/1.8.2/survey.css" type="text/css" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='styles.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+Antique&display=swap" rel="stylesheet">
+    <title>Document</title>
 </head>
 
-<body>
-  <div id="questions_form" style="display: inline-block; width: 100%"></div>
-  <script type="text/javascript">
-    var defaultThemeColors = Survey.StylesManager.ThemeColors["default"];
-    defaultThemeColors["$main-color"] = "#332288";
-    defaultThemeColors["$main-hover-color"] = "#332288";
-    defaultThemeColors["$text-color"] = "#888888";
-
-    defaultThemeColors["$body-container-background-color"] = "#f8f8f8";
-
-    Survey.StylesManager.applyTheme();
-    var json1 = {
-      "title":"ILRC",
-      "pages": [{
-        "name": "page1",
-        "elements": [{
-            "type": "boolean",
-            "name": "drug_offense",
-            "title": "Were you convicted of one offense for simple possession, possession of paraphernalia, or another 1 very minor drug offense on or before July 14, 2011?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "daca",
-            "title": "Are you applying for, or do you have, DACA?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "drug_counselling",
-            "title": "Did you go complete differed entry of judgement(DEJ), Pen C. 1000, where you had to plead guilty and attend drug counseling?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "drug_diverse",
-            "title": "Did you go through a drug diversion where you did not have to plead guilty after Jan. 12018 or before Jan. 1, 1997?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "probation",
-            "title": "Did you get sentenced no more than six months ago, and did your sentence include probation?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "nolo-immigrant",
-            "title": "Did you plead guilty or no lo contendere? Were your records destroyed and/or is there no record that you received a statutory advisement about the potential immigration damage of a conviction?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "parole",
-            "title": "Were you sentenced more than six months ago, but you still are on probation or parole?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "nolo-probation",
-            "title": "Did you plead guilty or no lo contendere and are you no longer on probation or parole?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "evidence",
-            "title": "Is there new evidence of innocence in your case?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "human-traffick",
-            "title": "When you did something illegal, was it because you were a victim of human traffick",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "marijuana",
-            "title": "Were you convicted of a marijuana offense before November 9, 2016?",
-            "isRequired": "true"
-          },
-          {
-            "type": "boolean",
-            "name": "jail",
-            "title": "Were you sentenced to jail or prison, did you make use of rehabilitative programs, and would an act of clemency help you, your family, and community?",
-            "isRequired": "true"
-          }
-
-        ]
-      }]
-    }
-
-    var data = {};
-
-    var sendDataToServer = function (sender, options) {
-      var errorMessage =
-        "Something went wrong on the server side. Please try again.";
-
-      if (sender.isLastPage) {
-        fetch("", {
-            method: "post",
-            headers: {
-              Accept: "text/html, text/plain, */*",
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(sender.data),
-          })
-          .then(function (response) {
-            replace_html = false;
-            if (response.ok) {
-              if (response.redirected) {
-                sender.navigateToUrl = response.url;
-              } else {
-                replace_html = response.text().then(function (text) {
-                  document.open();
-                  document.write(text);
-                  setTimeout(function () {
-                    var pages = survey.visiblePages;
-                    var error_page = -1;
-                    for (var i = 0; i < pages.length; i++) {
-                      if (pages[i].hasErrors(true, true)) {
-                        error_page = i;
-                        break;
-                      }
-                    }
-                    if (error_page != -1) {
-                      survey.currentPageNo = error_page;
-                    }
-                  }, 500);
-                });
-              }
-            } else {
-              first = sender.getAllQuestions()[0];
-              options.errors[first] =
-                response.statusText + ": " + errorMessage;
-            }
-            return replace_html;
-          })
-          .then(function (result) {
-            if (!result) {
-              options.complete();
-            }
-          })
-          .catch(function (error) {
-            first_question = sender.getAllQuestions()[0];
-            options.errors[first_question.name] =
-              error.message + ": " + errorMessage;
-            options.complete();
-          });
-      } else {
-        options.complete();
-      }
-    };
-
-    var survey = new Survey.Model(json1);
-    survey.data = data;
-    survey.onServerValidateQuestions.add(sendDataToServer);
-    $("#questions_form").Survey({
-      model: survey,
-    });
-  </script>
-
-  <!--#include file="includes/partners.html"-->
-  <section style="padding: 0" class="text-gray-700 body-font relative showContact">
-    <!--#include file="includes/contact.html"-->
-    <!--#include file="includes/footer.html"-->
-  </section>
+<body style="background-image: url('../static/front.png'); background-color: #090910;">
+    <section class="showcase">
+        <div class="video-container">
+        </div>
+        <div class="content">
+            <h1>Post-Conviction Relief For Immigrants</h1>
+            <p>The Immigrant Legal Resource Center (ILRC) has created this interactive form to help noncitizens </p>
+                <p>find post-conviction relief best suited for them.</p>
+            <a href="http://localhost:5000/form" class="btn">Get Started</a>
+        </div>
+    </section>
 </body>
 
 </html>
